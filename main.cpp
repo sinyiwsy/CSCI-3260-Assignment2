@@ -26,6 +26,8 @@ using namespace std;
 
 GLint programID;
 // Could define the Vao&Vbo and interaction parameter here
+int cat_tx = 1;
+
 
 //a series utilities for setting shader parameters 
 void setMat4(const std::string& name, glm::mat4& value)
@@ -145,6 +147,14 @@ void motion_callback(int x, int y)
 void keyboard_callback(unsigned char key, int x, int y)
 {
 	//TODO: Use keyboard to do interactive events and animation
+	if (key == '1')
+	{
+		cat_tx = 1;
+	}
+	if (key == '2')
+	{
+		cat_tx = 2;
+	}
 
 }
 
@@ -337,7 +347,7 @@ GLuint jeepTexture0;
 
 GLuint catVAO, catVBO, catEBO;
 Model catobj;
-GLuint catTexture0;
+GLuint catTexture0, catTexture1;
 void sendDataToOpenGL()
 {
 	//TODO:
@@ -444,7 +454,7 @@ void sendDataToOpenGL()
 		(void*)offsetof(Vertex, uv) // array buffer offset
 	);
 	catTexture0 = loadTexture("resources/cat/cat_01.jpg");
-	
+	catTexture1 = loadTexture("resources/cat/cat_02.jpg");
 
 }
 void matrix(string obj) {
@@ -500,7 +510,7 @@ void paintGL(void)
 	//Set lighting information, such as position and color of lighting source
 	//Set transformation matrix
 	//Bind different textures
-
+	
 	//Deph test
 	glClearDepth(1.0f);
 	glDepthFunc(GL_LESS);
@@ -519,9 +529,13 @@ void paintGL(void)
 	
 	matrix("cat");
 	glBindVertexArray(catVAO);
-	glBindTexture(GL_TEXTURE_2D, catTexture0);
+	if (cat_tx == 1)
+		glBindTexture(GL_TEXTURE_2D, catTexture0);
+	if (cat_tx == 2)
+		glBindTexture(GL_TEXTURE_2D, catTexture1);
+
 	glDrawElements(GL_TRIANGLES, catobj.indices.size(), GL_UNSIGNED_INT, 0);
-	
+	//cout << cat_tx << endl;
 	//cout << catobj.indices.size()<< endl;
 	glFlush();
 	glutPostRedisplay();
@@ -548,10 +562,10 @@ int main(int argc, char* argv[])
 	initializedGL();
 	glutDisplayFunc(paintGL);
 
-	/*glutMouseFunc(mouse_callback);
-	glutMotionFunc(motion_callback);
+	//glutMouseFunc(mouse_callback);
+	//glutMotionFunc(motion_callback);
 	glutKeyboardFunc(keyboard_callback);
-	glutSpecialFunc(special_callback);*/
+	//glutSpecialFunc(special_callback);
 
 	glutMainLoop();
 	//system("PAUSE");
