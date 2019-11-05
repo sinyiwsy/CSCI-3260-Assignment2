@@ -1,3 +1,6 @@
 ﻿  main.cpp
-c:\users\user\source\repos\3260-2\3260-2\main.cpp(390): warning C4267: '引數': 將 'size_t' 轉換為 'GLsizei'，資料可能遺失
-  3260-2.vcxproj -> C:\Users\user\source\repos\3260-2\x64\Debug\3260-2.exe
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(387): warning C4244: 'argument': conversion from 'double' to 'GLint', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(452): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(457): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(462): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+  3260-2.vcxproj -> C:\Users\hindu\Desktop\3260-2\x64\Debug\3260-2.exe
