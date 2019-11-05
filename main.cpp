@@ -411,7 +411,7 @@ void sendDataToOpenGL()
 	jeepTexture0 = loadTexture("resources/others/RockTexture2.jpg");
 
 
-	/*
+	
 	//CAT OBJ
 	catobj = loadOBJ("resources/cat/cat.obj");
 	glGenVertexArrays(1, &catVAO);
@@ -428,7 +428,7 @@ void sendDataToOpenGL()
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(
 		0, // attribute
-		5, // size
+		3, // size
 		GL_FLOAT, // type
 		GL_FALSE, // normalized?
 		sizeof(Vertex), // stride
@@ -437,14 +437,14 @@ void sendDataToOpenGL()
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(
 		1, // attribute
-		1, // size
+		2, // size
 		GL_FLOAT, // type
 		GL_FALSE, // normalized?
 		sizeof(Vertex), // stride
 		(void*)offsetof(Vertex, uv) // array buffer offset
 	);
 	catTexture0 = loadTexture("resources/cat/cat_01.jpg");
-	*/
+	
 
 }
 void matrix(string obj) {
@@ -456,7 +456,12 @@ void matrix(string obj) {
 	if (obj == "test") {
 		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(3.0f, 0.0f, -2.0f));
 		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(0.5f, 0.5f, 0.5f));
-		modelRotationMatrix = glm::rotate(glm::mat4(), -7.0f, glm::vec3(0, 1, 0));
+		//modelRotationMatrix = glm::rotate(glm::mat4(), -7.0f, glm::vec3(0, 0, 0));
+	}else if (obj == "cat") {
+		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f, 0.0f));
+		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(0.05f, 0.05f, 0.05f));
+		modelRotationMatrix = glm::rotate(glm::mat4(), -14.0f, glm::vec3(1, 0, 0));
+		modelRotationMatrix *= glm::rotate(glm::mat4(), -7.0f, glm::vec3(0, 0, 1));
 	}
 
 
@@ -511,12 +516,12 @@ void paintGL(void)
 	glBindTexture(GL_TEXTURE_2D, jeepTexture0);
 	glDrawElements(GL_TRIANGLES, jeepobj.indices.size(), GL_UNSIGNED_INT, 0);
 	//cout << jeepobj.indices.size() << endl;
-	/*
+	
 	matrix("cat");
 	glBindVertexArray(catVAO);
 	glBindTexture(GL_TEXTURE_2D, catTexture0);
 	glDrawElements(GL_TRIANGLES, catobj.indices.size(), GL_UNSIGNED_INT, 0);
-	*/
+	
 	//cout << catobj.indices.size()<< endl;
 	glFlush();
 	glutPostRedisplay();
