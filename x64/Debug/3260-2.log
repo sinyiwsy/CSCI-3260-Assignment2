@@ -1,5 +1,4 @@
 ﻿  main.cpp
 c:\users\hindu\desktop\3260-2\3260-2\main.cpp(507): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
 c:\users\hindu\desktop\3260-2\3260-2\main.cpp(512): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-c:\users\hindu\desktop\3260-2\3260-2\main.cpp(517): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
   3260-2.vcxproj -> C:\Users\hindu\Desktop\3260-2\x64\Debug\3260-2.exe

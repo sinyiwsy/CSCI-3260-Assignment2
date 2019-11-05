@@ -356,7 +356,6 @@ void sendDataToOpenGL()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, obj.indices.size() * sizeof(unsigned int), &obj.indices[0], GL_STATIC_DRAW);
 	// 1st attribute buffer : position
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(
 		0, // attribute
@@ -391,7 +390,6 @@ void sendDataToOpenGL()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, jeepEBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, jeepobj.indices.size() * sizeof(unsigned int), &jeepobj.indices[0], GL_STATIC_DRAW);
 	// 1st attribute buffer : position
-	glBindBuffer(GL_ARRAY_BUFFER, jeepVBO);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(
 		0, // attribute
@@ -413,7 +411,7 @@ void sendDataToOpenGL()
 	jeepTexture0 = loadTexture("resources/others/RockTexture2.jpg");
 
 
-	
+	/*
 	//CAT OBJ
 	catobj = loadOBJ("resources/cat/cat.obj");
 	glGenVertexArrays(1, &catVAO);
@@ -427,15 +425,14 @@ void sendDataToOpenGL()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, catEBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, catobj.indices.size() * sizeof(unsigned int), &catobj.indices[0], GL_STATIC_DRAW);
 	// 1st attribute buffer : position
-	glBindBuffer(GL_ARRAY_BUFFER, catVBO);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(
 		0, // attribute
 		5, // size
 		GL_FLOAT, // type
 		GL_FALSE, // normalized?
-		0, // stride
-		(void*)0// array buffer offset
+		sizeof(Vertex), // stride
+		(void*)offsetof(Vertex, position) // array buffer offset
 	);
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(
@@ -447,7 +444,7 @@ void sendDataToOpenGL()
 		(void*)offsetof(Vertex, uv) // array buffer offset
 	);
 	catTexture0 = loadTexture("resources/cat/cat_01.jpg");
-	
+	*/
 
 }
 void matrix(string obj) {
@@ -457,9 +454,9 @@ void matrix(string obj) {
 	unsigned int slot = 0;
 
 	if (obj == "test") {
-		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f, 0.0f));
+		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(3.0f, 0.0f, -2.0f));
 		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(0.5f, 0.5f, 0.5f));
-		modelRotationMatrix = glm::rotate(glm::mat4(), 7.0f, glm::vec3(0, 1, 0));
+		modelRotationMatrix = glm::rotate(glm::mat4(), -7.0f, glm::vec3(0, 1, 0));
 	}
 
 
@@ -486,10 +483,13 @@ void matrix(string obj) {
 	glActiveTexture(GL_TEXTURE0 + slot);
 	glUniform1i(TexLoc, 0);
 
+	//Light Effect
+
+
 }
 void paintGL(void)
 {
-	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//TODO:
 	//Set lighting information, such as position and color of lighting source
@@ -500,7 +500,7 @@ void paintGL(void)
 	glClearDepth(1.0f);
 	glDepthFunc(GL_LESS);
 	glEnable(GL_DEPTH_TEST);
-
+	
 	matrix("floor");
 	glBindVertexArray(VAO);
 	glBindTexture(GL_TEXTURE_2D, Texture0);
@@ -510,11 +510,13 @@ void paintGL(void)
 	glBindVertexArray(jeepVAO);
 	glBindTexture(GL_TEXTURE_2D, jeepTexture0);
 	glDrawElements(GL_TRIANGLES, jeepobj.indices.size(), GL_UNSIGNED_INT, 0);
-
+	//cout << jeepobj.indices.size() << endl;
+	/*
 	matrix("cat");
 	glBindVertexArray(catVAO);
 	glBindTexture(GL_TEXTURE_2D, catTexture0);
 	glDrawElements(GL_TRIANGLES, catobj.indices.size(), GL_UNSIGNED_INT, 0);
+	*/
 	//cout << catobj.indices.size()<< endl;
 	glFlush();
 	glutPostRedisplay();
