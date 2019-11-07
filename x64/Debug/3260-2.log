@@ -1,7 +1,7 @@
 ﻿  main.cpp
-h:\3260-2\3260-2\main.cpp(522): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-h:\3260-2\3260-2\main.cpp(523): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-h:\3260-2\3260-2\main.cpp(524): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-h:\3260-2\3260-2\main.cpp(562): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-h:\3260-2\3260-2\main.cpp(567): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-  3260-2.vcxproj -> H:\3260-2\x64\Debug\3260-2.exe
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(523): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(524): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(525): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(563): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(568): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+  3260-2.vcxproj -> C:\Users\hindu\Desktop\3260-2\x64\Debug\3260-2.exe
