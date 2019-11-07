@@ -26,6 +26,7 @@ using namespace std;
 
 GLint programID;
 // Could define the Vao&Vbo and interaction parameter here
+
 //camera rotation
 float radius = 10.0f;
 float camX;
