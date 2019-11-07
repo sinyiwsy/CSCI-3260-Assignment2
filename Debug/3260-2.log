@@ -1,0 +1,40 @@
+﻿  main.cpp
+main.obj : error LNK2019: unresolved external symbol __imp__glewInit@0 referenced in function "void __cdecl initializedGL(void)" (?initializedGL@@YAXXZ)
+main.obj : error LNK2019: unresolved external symbol __imp__glutInitWindowSize@8 referenced in function _main
+main.obj : error LNK2019: unresolved external symbol __imp__glutInitDisplayMode@4 referenced in function _main
+main.obj : error LNK2019: unresolved external symbol __imp__glutMainLoop@0 referenced in function _main
+main.obj : error LNK2019: unresolved external symbol __imp__glutPostRedisplay@0 referenced in function "void __cdecl paintGL(void)" (?paintGL@@YAXXZ)
+main.obj : error LNK2019: unresolved external symbol __imp__glutKeyboardFunc@4 referenced in function _main
+main.obj : error LNK2019: unresolved external symbol __imp__glutDisplayFunc@4 referenced in function _main
+main.obj : error LNK2019: unresolved external symbol __imp____glutInitWithExit@12 referenced in function _glutInit_ATEXIT_HACK@8
+main.obj : error LNK2019: unresolved external symbol __imp____glutCreateWindowWithExit@8 referenced in function _glutCreateWindow_ATEXIT_HACK@4
+main.obj : error LNK2001: unresolved external symbol __imp____glewActiveTexture
+main.obj : error LNK2001: unresolved external symbol __imp____glewBindBuffer
+main.obj : error LNK2001: unresolved external symbol __imp____glewBufferData
+main.obj : error LNK2001: unresolved external symbol __imp____glewGenBuffers
+main.obj : error LNK2001: unresolved external symbol __imp____glewAttachShader
+main.obj : error LNK2001: unresolved external symbol __imp____glewCompileShader
+main.obj : error LNK2001: unresolved external symbol __imp____glewCreateProgram
+main.obj : error LNK2001: unresolved external symbol __imp____glewCreateShader
+main.obj : error LNK2001: unresolved external symbol __imp____glewDeleteShader
+main.obj : error LNK2001: unresolved external symbol __imp____glewEnableVertexAttribArray
+main.obj : error LNK2001: unresolved external symbol __imp____glewGetProgramInfoLog
+main.obj : error LNK2001: unresolved external symbol __imp____glewGetProgramiv
+main.obj : error LNK2001: unresolved external symbol __imp____glewGetShaderInfoLog
+main.obj : error LNK2001: unresolved external symbol __imp____glewGetShaderiv
+main.obj : error LNK2001: unresolved external symbol __imp____glewGetUniformLocation
+main.obj : error LNK2001: unresolved external symbol __imp____glewLinkProgram
+main.obj : error LNK2001: unresolved external symbol __imp____glewShaderSource
+main.obj : error LNK2001: unresolved external symbol __imp____glewUniform1f
+main.obj : error LNK2001: unresolved external symbol __imp____glewUniform1i
+main.obj : error LNK2001: unresolved external symbol __imp____glewUniform3fv
+main.obj : error LNK2001: unresolved external symbol __imp____glewUniform4fv
+main.obj : error LNK2001: unresolved external symbol __imp____glewUniformMatrix4fv
+main.obj : error LNK2001: unresolved external symbol __imp____glewUseProgram
+main.obj : error LNK2001: unresolved external symbol __imp____glewVertexAttribPointer
+main.obj : error LNK2001: unresolved external symbol __imp____glewGenerateMipmap
+main.obj : error LNK2001: unresolved external symbol __imp____glewBindVertexArray
+main.obj : error LNK2001: unresolved external symbol __imp____glewGenVertexArrays
+Dependencies\freeglut\freeglut.lib : warning LNK4272: library machine type 'x64' conflicts with target machine type 'x86'
+Dependencies\glew\glew32.lib : warning LNK4272: library machine type 'x64' conflicts with target machine type 'x86'
+H:\3260-2\Debug\3260-2.exe : fatal error LNK1120: 36 unresolved externals
