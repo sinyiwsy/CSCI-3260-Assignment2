@@ -26,6 +26,17 @@ using namespace std;
 
 GLint programID;
 // Could define the Vao&Vbo and interaction parameter here
+
+//camera rotation
+float radius = 10.0f;
+float camX;
+float camY;
+float camZ;
+float yaw = -90.0f;
+float pitch = 0.0f;
+int original_x;
+int original_y;
+
 int cat_tx = 1;
 float cat_r;
 float cat_x;
@@ -139,12 +150,21 @@ void installShaders()
 void mouse_callback(int button, int state, int x, int y)
 {
 	//TODO: Use mouse to do interactive events and animation
-
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+		printf("%d %d\n", x, y);
+		original_x = x;
+		original_y = y;
+	}
 }
 
 void motion_callback(int x, int y)
 {
 	//TODO: Use mouse to do interactive events and animation
+	
+	yaw += 0.05f * (x - original_x);
+	pitch += 0.05f * (y - original_y);
+	pitch = glm::clamp(pitch, -89.0f, 89.0f);
+	printf("%d %d %f %f\n", x, y, yaw, pitch);
 }
 
 void keyboard_callback(unsigned char key, int x, int y)
@@ -438,7 +458,7 @@ void sendDataToOpenGL()
 	jeepTexture0 = loadTexture("resources/others/RockTexture2.jpg");
 
 
-	
+	/*
 	//CAT OBJ
 	catobj = loadOBJ("resources/cat/cat.obj");
 	glGenVertexArrays(1, &catVAO);
@@ -472,7 +492,7 @@ void sendDataToOpenGL()
 	);
 	catTexture0 = loadTexture("resources/cat/cat_01.jpg");
 	catTexture1 = loadTexture("resources/cat/cat_02.jpg");
-
+	*/
 }
 void matrix(string obj) {
 	glm::mat4 modelTransformMatrix = glm::mat4(1.0f);
@@ -500,13 +520,17 @@ void matrix(string obj) {
 	glUniformMatrix4fv(modelRotateMatrixUniformLocation, 1, GL_FALSE, &modelRotationMatrix[0][0]);
 	glUniformMatrix4fv(modelScalingMatrixUniformLocation, 1, GL_FALSE, &modelScalingMatrix[0][0]);
 
-	glm::mat4 Projection = glm::perspective(30.0f, 1.0f, 2.0f, 20.0f);
+	camX = 15.0* sin(cos(glm::radians(yaw)) * cos(glm::radians(pitch)));
+	camY = 15.0* sin(glm::radians(pitch));
+	camZ = 15.0*cos(glm::radians(pitch)) * sin(glm::radians(yaw));
+
+	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), (float)640/(float)480 , 0.1f, 100.0f);
 	glm::mat4 Lookat = glm::lookAt(
-		glm::vec3(0, 5.0, 0),
-		glm::vec3(0, 0, -10),
-		glm::vec3(0, -1, 0)
+		glm::vec3(camX, camY , camZ), //cam
+		glm::vec3(0.0f, 2.0f, 0.0f), //look
+		glm::vec3(0, 1, 0) 
 	);
-	glm::mat4 Tmp = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.5f, -5.0f));;
+	glm::mat4 Tmp = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.5f, -5.0f));
 	glm::mat4 ProjectionMatrix = Projection * Lookat * Tmp;
 	GLuint MatrixID = glGetUniformLocation(programID, "projectionMatrix");
 	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &ProjectionMatrix[0][0]);
@@ -543,7 +567,7 @@ void paintGL(void)
 	glBindTexture(GL_TEXTURE_2D, jeepTexture0);
 	glDrawElements(GL_TRIANGLES, jeepobj.indices.size(), GL_UNSIGNED_INT, 0);
 	//cout << jeepobj.indices.size() << endl;
-	
+	/*
 	matrix("cat");
 	glBindVertexArray(catVAO);
 	if (cat_tx == 1)
@@ -552,6 +576,7 @@ void paintGL(void)
 		glBindTexture(GL_TEXTURE_2D, catTexture1);
 
 	glDrawElements(GL_TRIANGLES, catobj.indices.size(), GL_UNSIGNED_INT, 0);
+	*/
 	//cout << cat_tx << endl;
 	//cout << catobj.indices.size()<< endl;
 	glFlush();
@@ -579,8 +604,8 @@ int main(int argc, char* argv[])
 	initializedGL();
 	glutDisplayFunc(paintGL);
 
-	//glutMouseFunc(mouse_callback);
-	//glutMotionFunc(motion_callback);
+	glutMouseFunc(mouse_callback);
+	glutMotionFunc(motion_callback);
 	glutKeyboardFunc(keyboard_callback);
 	glutSpecialFunc(special_callback);
 
