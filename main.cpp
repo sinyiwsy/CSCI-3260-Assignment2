@@ -33,7 +33,7 @@ float camX;
 float camY;
 float camZ;
 float yaw = -90.0f;
-float pitch = 0.0f;
+float pitch = 13.0f;
 int original_x;
 int original_y;
 
@@ -161,8 +161,8 @@ void motion_callback(int x, int y)
 {
 	//TODO: Use mouse to do interactive events and animation
 	
-	yaw += 0.05f * (x - original_x);
-	pitch += 0.05f * (y - original_y);
+	yaw += 0.03f * (original_x - x);
+	pitch += 0.03f * (y - original_y);
 	pitch = glm::clamp(pitch, -89.0f, 89.0f);
 	printf("%d %d %f %f\n", x, y, yaw, pitch);
 }
@@ -423,7 +423,15 @@ void sendDataToOpenGL()
 	);
 	Texture0 = loadTexture("resources/floor/floor_spec.jpg");
 	Texture1 = loadTexture("resources/floor/floor_diff.jpg");
-	
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(
+		2, // attribute
+		3, // size
+		GL_FLOAT, // type
+		GL_FALSE, // normalized?
+		sizeof(Vertex), // stride
+		(void*)offsetof(Vertex, normal) // array buffer offset
+	);
 
 	jeepobj = loadOBJ("resources/others/jeep.obj");
 	glGenVertexArrays(1, &jeepVAO);
@@ -456,7 +464,15 @@ void sendDataToOpenGL()
 		(void*)offsetof(Vertex, uv) // array buffer offset
 	);
 	jeepTexture0 = loadTexture("resources/others/RockTexture2.jpg");
-
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(
+		2, // attribute
+		3, // size
+		GL_FLOAT, // type
+		GL_FALSE, // normalized?
+		sizeof(Vertex), // stride
+		(void*)offsetof(Vertex, normal) // array buffer offset
+	);
 
 	/*
 	//CAT OBJ
@@ -501,7 +517,7 @@ void matrix(string obj) {
 	unsigned int slot = 0;
 
 	if (obj == "test") {
-		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(3.0f, 0.0f, -2.0f));
+		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(0.0f, -1.2f, 0.0f));
 		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(0.5f, 0.5f, 0.5f));
 		//modelRotationMatrix = glm::rotate(glm::mat4(), -7.0f, glm::vec3(0, 0, 0));
 	}else if (obj == "cat") {
@@ -520,14 +536,14 @@ void matrix(string obj) {
 	glUniformMatrix4fv(modelRotateMatrixUniformLocation, 1, GL_FALSE, &modelRotationMatrix[0][0]);
 	glUniformMatrix4fv(modelScalingMatrixUniformLocation, 1, GL_FALSE, &modelScalingMatrix[0][0]);
 
-	camX = 15.0* sin(cos(glm::radians(yaw)) * cos(glm::radians(pitch)));
-	camY = 15.0* sin(glm::radians(pitch));
-	camZ = 15.0*cos(glm::radians(pitch)) * sin(glm::radians(yaw));
+	camX = 20.0* sin(cos(glm::radians(yaw)) * cos(glm::radians(pitch)));
+	camY = 20.0* sin(glm::radians(pitch));
+	camZ = -20.0*cos(glm::radians(pitch)) * sin(glm::radians(yaw));
 
 	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), (float)640/(float)480 , 0.1f, 100.0f);
 	glm::mat4 Lookat = glm::lookAt(
 		glm::vec3(camX, camY , camZ), //cam
-		glm::vec3(0.0f, 2.0f, 0.0f), //look
+		glm::vec3(0.0f, 0.0f, 0.0f), //look
 		glm::vec3(0, 1, 0) 
 	);
 	glm::mat4 Tmp = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.5f, -5.0f));
@@ -540,7 +556,9 @@ void matrix(string obj) {
 	glUniform1i(TexLoc, 0);
 
 	//Light Effect
-
+	GLint lightPositionUniformLocation = glGetUniformLocation(programID, "lightPositionWorld");
+	glm::vec3 lightPosition(0.0f, 1.7f, 0.0f);
+	glUniform3fv(lightPositionUniformLocation, 1, &lightPosition[0]);
 
 }
 void paintGL(void)
