@@ -27,7 +27,10 @@ using namespace std;
 GLint programID;
 // Could define the Vao&Vbo and interaction parameter here
 int cat_tx = 1;
-
+float cat_r;
+float cat_x;
+float cat_z;
+float cat_delta = 0.1f;
 
 //a series utilities for setting shader parameters 
 void setMat4(const std::string& name, glm::mat4& value)
@@ -161,7 +164,21 @@ void keyboard_callback(unsigned char key, int x, int y)
 void special_callback(int key, int x, int y)
 {
 	//TODO: Use keyboard to do interactive events and animation
+	if (key == GLUT_KEY_UP) {
 
+	}
+
+	if (key == GLUT_KEY_DOWN) {
+
+	}
+
+	if (key == GLUT_KEY_LEFT) {
+
+	}
+
+	if (key == GLUT_KEY_RIGHT) {
+
+	}
 }
 
 // struct for storing the obj file
@@ -565,7 +582,7 @@ int main(int argc, char* argv[])
 	//glutMouseFunc(mouse_callback);
 	//glutMotionFunc(motion_callback);
 	glutKeyboardFunc(keyboard_callback);
-	//glutSpecialFunc(special_callback);
+	glutSpecialFunc(special_callback);
 
 	glutMainLoop();
 	//system("PAUSE");
