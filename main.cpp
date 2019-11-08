@@ -21,11 +21,15 @@ Student Name: Wong Sin Yi
 #include <fstream>
 #include <vector>
 #include <map>
+#include <time.h>
 
 using namespace std;
-
+clock_t now_t;
+int st_time = 0;
 GLint programID;
 // Could define the Vao&Vbo and interaction parameter here
+
+int isRotate = 1;
 
 //camera rotation
 float radius = 10.0f;
@@ -151,7 +155,7 @@ void mouse_callback(int button, int state, int x, int y)
 {
 	//TODO: Use mouse to do interactive events and animation
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-		printf("%d %d\n", x, y);
+		//printf("%d %d\n", x, y);
 		original_x = x;
 		original_y = y;
 	}
@@ -164,7 +168,7 @@ void motion_callback(int x, int y)
 	yaw += 0.03f * (original_x - x);
 	pitch += 0.03f * (y - original_y);
 	pitch = glm::clamp(pitch, -89.0f, 89.0f);
-	printf("%d %d %f %f\n", x, y, yaw, pitch);
+	//printf("%d %d %f %f\n", x, y, yaw, pitch);
 }
 
 void keyboard_callback(unsigned char key, int x, int y)
@@ -177,6 +181,13 @@ void keyboard_callback(unsigned char key, int x, int y)
 	if (key == '2')
 	{
 		cat_tx = 2;
+	}
+	if (key == 'p')
+	{
+		if(isRotate == 1) isRotate = 0;
+		else {
+			isRotate = 1;
+		}
 	}
 
 }
@@ -382,6 +393,14 @@ GLuint jeepVAO, jeepVBO, jeepEBO;
 Model jeepobj;
 GLuint jeepTexture0;
 
+GLuint grassVAO, grassVBO, grassEBO;
+Model grassobj;
+GLuint grassTexture0;
+
+GLuint cat2VAO, cat2VBO, cat2EBO;
+Model cat2obj;
+GLuint cat2Texture0, cat2Texture1, cat2Texture2;
+
 GLuint catVAO, catVBO, catEBO;
 Model catobj;
 GLuint catTexture0, catTexture1;
@@ -433,7 +452,7 @@ void sendDataToOpenGL()
 		(void*)offsetof(Vertex, normal) // array buffer offset
 	);
 
-	jeepobj = loadOBJ("resources/others/jeep.obj");
+	jeepobj = loadOBJ("resources/others/cc.obj");
 	glGenVertexArrays(1, &jeepVAO);
 	glBindVertexArray(jeepVAO);
 	//Create Vertex Buffer Objects
@@ -474,7 +493,91 @@ void sendDataToOpenGL()
 		(void*)offsetof(Vertex, normal) // array buffer offset
 	);
 
-	/*
+	grassobj = loadOBJ("resources/others/grass.obj");
+	glGenVertexArrays(1, &grassVAO);
+	glBindVertexArray(grassVAO);
+	//Create Vertex Buffer Objects
+	glGenBuffers(1, &grassVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, grassVBO);
+	glBufferData(GL_ARRAY_BUFFER, grassobj.vertices.size() * sizeof(Vertex), &grassobj.vertices[0], GL_STATIC_DRAW);
+	//Create Element array Buffer Objects
+	glGenBuffers(1, &grassEBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, grassEBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, grassobj.indices.size() * sizeof(unsigned int), &grassobj.indices[0], GL_STATIC_DRAW);
+	// 1st attribute buffer : position
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(
+		0, // attribute
+		3, // size
+		GL_FLOAT, // type
+		GL_FALSE, // normalized?
+		sizeof(Vertex), // stride
+		(void*)offsetof(Vertex, position) // array buffer offset
+	);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(
+		1, // attribute
+		2, // size
+		GL_FLOAT, // type
+		GL_FALSE, // normalized?
+		sizeof(Vertex), // stride
+		(void*)offsetof(Vertex, uv) // array buffer offset
+	);
+	grassTexture0 = loadTexture("resources/others/grass.png");
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(
+		2, // attribute
+		3, // size
+		GL_FLOAT, // type
+		GL_FALSE, // normalized?
+		sizeof(Vertex), // stride
+		(void*)offsetof(Vertex, normal) // array buffer offset
+	);
+
+
+	cat2obj = loadOBJ("resources/cat/cat2.obj");
+	glGenVertexArrays(1, &cat2VAO);
+	glBindVertexArray(cat2VAO);
+	//Create Vertex Buffer Objects
+	glGenBuffers(1, &cat2VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, cat2VBO);
+	glBufferData(GL_ARRAY_BUFFER, cat2obj.vertices.size() * sizeof(Vertex), &cat2obj.vertices[0], GL_STATIC_DRAW);
+	//Create Element array Buffer Objects
+	glGenBuffers(1, &cat2EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cat2EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, cat2obj.indices.size() * sizeof(unsigned int), &cat2obj.indices[0], GL_STATIC_DRAW);
+	// 1st attribute buffer : position
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(
+		0, // attribute
+		3, // size
+		GL_FLOAT, // type
+		GL_FALSE, // normalized?
+		sizeof(Vertex), // stride
+		(void*)offsetof(Vertex, position) // array buffer offset
+	);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(
+		1, // attribute
+		2, // size
+		GL_FLOAT, // type
+		GL_FALSE, // normalized?
+		sizeof(Vertex), // stride
+		(void*)offsetof(Vertex, uv) // array buffer offset
+	);
+	cat2Texture0 = loadTexture("resources/cat/cat2_01.jpg");
+	cat2Texture1 = loadTexture("resources/cat/cat2_02.jpg");
+	cat2Texture2 = loadTexture("resources/cat/cat2_03.jpg");
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(
+		2, // attribute
+		3, // size
+		GL_FLOAT, // type
+		GL_FALSE, // normalized?
+		sizeof(Vertex), // stride
+		(void*)offsetof(Vertex, normal) // array buffer offset
+	);
+	
 	//CAT OBJ
 	catobj = loadOBJ("resources/cat/cat.obj");
 	glGenVertexArrays(1, &catVAO);
@@ -508,7 +611,16 @@ void sendDataToOpenGL()
 	);
 	catTexture0 = loadTexture("resources/cat/cat_01.jpg");
 	catTexture1 = loadTexture("resources/cat/cat_02.jpg");
-	*/
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(
+		2, // attribute
+		3, // size
+		GL_FLOAT, // type
+		GL_FALSE, // normalized?
+		sizeof(Vertex), // stride
+		(void*)offsetof(Vertex, normal) // array buffer offset
+	);
+	
 }
 void matrix(string obj) {
 	glm::mat4 modelTransformMatrix = glm::mat4(1.0f);
@@ -517,14 +629,46 @@ void matrix(string obj) {
 	unsigned int slot = 0;
 
 	if (obj == "test") {
-		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(0.0f, -1.2f, 0.0f));
-		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(0.5f, 0.5f, 0.5f));
-		//modelRotationMatrix = glm::rotate(glm::mat4(), -7.0f, glm::vec3(0, 0, 0));
-	}else if (obj == "cat") {
-		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f, 0.0f));
+		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(3.0f, 0.5f, -2.0f));
+		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(1.5f, 1.5f, 1.5f));
+		modelRotationMatrix = glm::rotate(glm::mat4(), 28.0f, glm::vec3(0, 1, 0));
+	}
+	else if (obj == "grass1") {
+		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(0.0f, -1.0f, 0.0f));
+		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(1.0f, 1.0f, 1.0f));
+	}
+	else if (obj == "grass2") {
+		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(7.0f, -1.0f, 0.0f));
+		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(1.5f, 1.5f, 1.5f));
+	}
+	else if (obj == "grass3") {
+		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(0.0f, -1.0f, -5.0f));
+		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(1.6f, 1.6f, 1.6f));
+	}
+	else if (obj == "grass4") {
+		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(-2.0f, -1.0f, -4.0f));
+		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(1.3f, 1.3f, 1.3f));
+	}
+	else if (obj == "grass5") {
+		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(2.0f, -1.0f, 1.0f));
+		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(0.7f, 0.7f, 0.7f));
+	}
+	else if (obj == "cat2") {
+		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(-3.0f, -1.0f, 1.0f));
+		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(0.2f, 0.2f, 0.2f));
+	}
+	else if (obj == "cat3") {
+		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(2.0f, -1.0f, 1.0f));
 		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(0.05f, 0.05f, 0.05f));
+	}
+	else if (obj == "cat4") {
+		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(2.0f, -1.0f, 1.0f));
+		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(0.05f, 0.05f, 0.05f));
+	}
+	else if (obj == "cat") {
+		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(-3.0f, -1.0f, 0.0f));
+		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(0.08f, 0.08f, 0.08f));
 		modelRotationMatrix = glm::rotate(glm::mat4(), -14.0f, glm::vec3(1, 0, 0));
-		modelRotationMatrix *= glm::rotate(glm::mat4(), -7.0f, glm::vec3(0, 0, 1));
 	}
 
 
@@ -556,15 +700,26 @@ void matrix(string obj) {
 	glUniform1i(TexLoc, 0);
 
 	//Light Effect
+	GLint ambientLightUniformLocation = glGetUniformLocation(programID, "ambientLight");
+	glm::vec4 ambientLight(0.1f, 0.1f, 0.1f, 1.0f);
+	glUniform4fv(ambientLightUniformLocation, 1, &ambientLight[0]);
+
 	GLint lightPositionUniformLocation = glGetUniformLocation(programID, "lightPositionWorld");
-	glm::vec3 lightPosition(0.0f, 1.7f, 0.0f);
+	glm::mat4 rotationMat = glm::rotate(glm::mat4(), (clock()-st_time) * 0.0005f , glm::vec3(1, 1, 0));
+	glm::vec3 lightPosition = glm::vec3(1, 10, 0);
+	if (isRotate == 1) lightPosition = glm::vec3(rotationMat * glm::vec4(1, 10, 0 , 1.0));
 	glUniform3fv(lightPositionUniformLocation, 1, &lightPosition[0]);
 
+	GLint eyePositionUniformLocation = glGetUniformLocation(programID, "eyePositionWorld");
+	glm::vec3 eyePosition(3.0f, 10.0f, 0.0f);
+	glUniform3fv(eyePositionUniformLocation, 1, &eyePosition[0]);
 }
 void paintGL(void)
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	//cout << isRotate << endl;
 	//TODO:
 	//Set lighting information, such as position and color of lighting source
 	//Set transformation matrix
@@ -584,8 +739,50 @@ void paintGL(void)
 	glBindVertexArray(jeepVAO);
 	glBindTexture(GL_TEXTURE_2D, jeepTexture0);
 	glDrawElements(GL_TRIANGLES, jeepobj.indices.size(), GL_UNSIGNED_INT, 0);
-	//cout << jeepobj.indices.size() << endl;
+
+	matrix("grass1");
+	glBindVertexArray(grassVAO);
+	glBindTexture(GL_TEXTURE_2D, grassTexture0);
+	glDrawElements(GL_TRIANGLES, grassobj.indices.size(), GL_UNSIGNED_INT, 0);
+
+	matrix("grass2");
+	glBindVertexArray(grassVAO);
+	glBindTexture(GL_TEXTURE_2D, grassTexture0);
+	glDrawElements(GL_TRIANGLES, grassobj.indices.size(), GL_UNSIGNED_INT, 0);
+
+	matrix("grass3");
+	glBindVertexArray(grassVAO);
+	glBindTexture(GL_TEXTURE_2D, grassTexture0);
+	glDrawElements(GL_TRIANGLES, grassobj.indices.size(), GL_UNSIGNED_INT, 0);
+
+	matrix("grass4");
+	glBindVertexArray(grassVAO);
+	glBindTexture(GL_TEXTURE_2D, grassTexture0);
+	glDrawElements(GL_TRIANGLES, grassobj.indices.size(), GL_UNSIGNED_INT, 0);
+
+	matrix("grass5");
+	glBindVertexArray(grassVAO);
+	glBindTexture(GL_TEXTURE_2D, grassTexture0);
+	glDrawElements(GL_TRIANGLES, grassobj.indices.size(), GL_UNSIGNED_INT, 0);
 	/*
+	matrix("cat2");
+	glBindVertexArray(cat2VAO);
+	glBindTexture(GL_TEXTURE_2D, cat2Texture0);
+	glDrawElements(GL_TRIANGLES, cat2obj.indices.size(), GL_UNSIGNED_INT, 0);
+
+	
+	matrix("cat3");
+	glBindVertexArray(cat2VAO);
+	glBindTexture(GL_TEXTURE_2D, cat2Texture1);
+	glDrawElements(GL_TRIANGLES, cat2obj.indices.size(), GL_UNSIGNED_INT, 0);
+
+	matrix("cat4");
+	glBindVertexArray(cat2VAO);
+	glBindTexture(GL_TEXTURE_2D, cat2Texture2);
+	glDrawElements(GL_TRIANGLES, cat2obj.indices.size(), GL_UNSIGNED_INT, 0);
+	*/
+	//cout << jeepobj.indices.size() << endl;
+	
 	matrix("cat");
 	glBindVertexArray(catVAO);
 	if (cat_tx == 1)
@@ -594,7 +791,7 @@ void paintGL(void)
 		glBindTexture(GL_TEXTURE_2D, catTexture1);
 
 	glDrawElements(GL_TRIANGLES, catobj.indices.size(), GL_UNSIGNED_INT, 0);
-	*/
+	
 	//cout << cat_tx << endl;
 	//cout << catobj.indices.size()<< endl;
 	glFlush();

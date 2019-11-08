@@ -1,7 +1,13 @@
 ﻿  main.cpp
-c:\users\hindu\desktop\3260-2\3260-2\main.cpp(539): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\hindu\desktop\3260-2\3260-2\main.cpp(540): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\hindu\desktop\3260-2\3260-2\main.cpp(541): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\hindu\desktop\3260-2\3260-2\main.cpp(581): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-c:\users\hindu\desktop\3260-2\3260-2\main.cpp(586): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(683): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(684): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(685): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(736): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(741): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(746): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(751): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(756): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(761): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(766): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(793): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
   3260-2.vcxproj -> C:\Users\hindu\Desktop\3260-2\x64\Debug\3260-2.exe

@@ -5,32 +5,35 @@ in vec3 normalWorld;
 in vec3 vertexPositionWorld;
 
 uniform sampler2D myTextureSampler0;
+uniform vec4 ambientLight;
 uniform vec3 lightPositionWorld;
 uniform vec3 eyePositionWorld;
 
-out vec3 color;
+out vec4 color;
 
 
 void main()
 {
+	vec3 LightColor = vec3(1,1,1);
+
+	vec4 MaterialAmbientColor = texture( myTextureSampler0, UV ).rgba;
+	vec4 MaterialDiffuseColor = texture( myTextureSampler0, UV ).rgba;
+	vec3 MaterialSpecularColor = vec3(0.3,0.3,0.3);
+
+	//Diffuse
 	vec3 lightVectorWorld = normalize(lightPositionWorld - vertexPositionWorld);
 	float brightness = dot(lightVectorWorld, normalize(normalWorld));
-	vec3 diffuseLight = vec3(brightness, brightness, brightness);
+	vec4 diffuseLight = vec4(brightness, brightness, brightness, 1.0);
 
-	vec3 MaterialAmbientColor = texture( myTextureSampler0, UV ).rgb;
-	vec3 MaterialDiffuseColor = texture( myTextureSampler0, UV ).rgb;
-	vec3 MaterialSpecularColor = vec3(0.3,0.3,0.3); // or a specular texture
-	
-	vec3 LightColor = vec3(1,1,1);
-	float AmbientBrightness = 0.1f;
-	float DiffuseBrightness = 0.8f;
-	float SpecularBrightness = 1.0f;
+	//Specular
+	vec3 reflectedLightVectorWorld = reflect(-lightVectorWorld, normalWorld);
+	vec3 eyeVectorWorld = normalize(eyePositionWorld - vertexPositionWorld);
+	float s =clamp(dot(reflectedLightVectorWorld, eyeVectorWorld), 0, 1);
+	s = pow(s, 50);
+	vec4 specularLight = vec4(s , s, s, 1);
 
 	 color = 
-		// Ambient : simulates indirect lighting
-		MaterialAmbientColor * (LightColor * AmbientBrightness) + clamp(diffuseLight, 0, 1) * DiffuseBrightness;
-		// Diffuse : "color" of the object
-		//MaterialDiffuseColor * LightColor * DiffuseBrightness+
-		// Specular : reflective highlight, like a mirror
-		//MaterialSpecularColor * LightColor * pow(SpecularBrightness, 50);
+		MaterialAmbientColor * ambientLight + 
+		MaterialDiffuseColor * clamp(diffuseLight, 0, 1)+
+		specularLight;
 }
