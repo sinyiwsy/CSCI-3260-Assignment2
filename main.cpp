@@ -42,11 +42,12 @@ int original_x;
 int original_y;
 
 int cat_tx = 1;
-float cat_r;
+float cat_r = 0;
 float cat_x;
 float cat_z;
 float cat_delta = 0.1f;
 
+glm::vec3 lightPosition = glm::vec3(10, 5, 0);
 //a series utilities for setting shader parameters 
 void setMat4(const std::string& name, glm::mat4& value)
 {
@@ -184,9 +185,12 @@ void keyboard_callback(unsigned char key, int x, int y)
 	}
 	if (key == 'p')
 	{
-		if(isRotate == 1) isRotate = 0;
-		else {
+		if (isRotate == 1) {
+			isRotate = 0;
+			
+		}else {
 			isRotate = 1;
+			st_time = clock();
 		}
 	}
 
@@ -196,19 +200,21 @@ void special_callback(int key, int x, int y)
 {
 	//TODO: Use keyboard to do interactive events and animation
 	if (key == GLUT_KEY_UP) {
-
+		cat_z += 0.1f * cos(cat_delta * cat_r);
+		cat_x += 0.1f * sin(cat_delta * cat_r);
 	}
 
 	if (key == GLUT_KEY_DOWN) {
-
+		cat_z -= 0.1f * cos(cat_delta * cat_r);
+		cat_x -= 0.1f * sin(cat_delta * cat_r);
 	}
 
 	if (key == GLUT_KEY_LEFT) {
-
+		cat_r += 1;
 	}
 
 	if (key == GLUT_KEY_RIGHT) {
-
+		cat_r -= 1;
 	}
 }
 
@@ -577,7 +583,7 @@ void sendDataToOpenGL()
 		sizeof(Vertex), // stride
 		(void*)offsetof(Vertex, normal) // array buffer offset
 	);
-	/*
+	
 	//CAT OBJ
 	catobj = loadOBJ("resources/cat/cat.obj");
 	glGenVertexArrays(1, &catVAO);
@@ -620,7 +626,7 @@ void sendDataToOpenGL()
 		sizeof(Vertex), // stride
 		(void*)offsetof(Vertex, normal) // array buffer offset
 	);
-	*/
+	
 
 }
 void matrix(string obj) {
@@ -667,9 +673,10 @@ void matrix(string obj) {
 		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(0.05f, 0.05f, 0.05f));
 	}
 	else if (obj == "cat") {
-		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(-3.0f, -1.0f, 0.0f));
+		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(cat_x, -1.0f, cat_z));
 		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(0.08f, 0.08f, 0.08f));
 		modelRotationMatrix = glm::rotate(glm::mat4(), -14.0f, glm::vec3(1, 0, 0));
+		modelRotationMatrix *= glm::rotate(glm::mat4(), cat_r*cat_delta, glm::vec3(0, 0, 1));
 	}
 
 
@@ -702,12 +709,12 @@ void matrix(string obj) {
 
 	//Light Effect
 	GLint ambientLightUniformLocation = glGetUniformLocation(programID, "ambientLight");
-	glm::vec4 ambientLight(0.1f, 0.1f, 0.1f, 1.0f);
+	glm::vec4 ambientLight(0.3f, 0.3f, 0.3f, 1.0f);
 	glUniform4fv(ambientLightUniformLocation, 1, &ambientLight[0]);
 
 	GLint lightPositionUniformLocation = glGetUniformLocation(programID, "lightPositionWorld");
-	glm::mat4 rotationMat = glm::rotate(glm::mat4(), (clock()-st_time) * 0.0005f , glm::vec3(0, 1, 0));
-	glm::vec3 lightPosition = glm::vec3(10, 5, 0);
+
+	glm::mat4 rotationMat = glm::rotate(glm::mat4(),  0.00005f , glm::vec3(0, isRotate, 0));
 	if (isRotate == 1) lightPosition = glm::vec3(rotationMat * glm::vec4(lightPosition, 1));
 	glUniform3fv(lightPositionUniformLocation, 1, &lightPosition[0]);
 
@@ -766,11 +773,11 @@ void paintGL(void)
 	glBindTexture(GL_TEXTURE_2D, grassTexture0);
 	glDrawElements(GL_TRIANGLES, grassobj.indices.size(), GL_UNSIGNED_INT, 0);
 	
+	/*
 	matrix("cat2");
 	glBindVertexArray(cat2VAO);
 	glBindTexture(GL_TEXTURE_2D, cat2Texture0);
 	glDrawElements(GL_TRIANGLES, cat2obj.indices.size(), GL_UNSIGNED_INT, 0);
-	/*
 	
 	matrix("cat3");
 	glBindVertexArray(cat2VAO);
