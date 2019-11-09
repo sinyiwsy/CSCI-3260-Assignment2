@@ -1,0 +1,15 @@
+diff a/main.cpp b/main.cpp	(rejected hunks)
+@@ -42,11 +42,12 @@
+ int original_y;
+ 
+ int cat_tx = 1;
+-float cat_r;
++float cat_r = 0;
+ float cat_x;
+ float cat_z;
+ float cat_delta = 0.1f;
+ 
++glm::vec3 lightPosition = glm::vec3(10, 5, 0);
+ //a series utilities for setting shader parameters 
+ void setMat4(const std::string& name, glm::mat4& value)
+ {

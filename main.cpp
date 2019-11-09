@@ -47,7 +47,7 @@ float cat_x;
 float cat_z;
 float cat_delta = 0.1f;
 
-glm::vec3 lightPosition = glm::vec3(10, 5, 0);
+glm::vec3 lightPosition = glm::vec3(10, 0, 0);
 //a series utilities for setting shader parameters 
 void setMat4(const std::string& name, glm::mat4& value)
 {
@@ -403,9 +403,13 @@ GLuint grassVAO, grassVBO, grassEBO;
 Model grassobj;
 GLuint grassTexture0;
 
-GLuint cat2VAO, cat2VBO, cat2EBO;
-Model cat2obj;
-GLuint cat2Texture0, cat2Texture1, cat2Texture2;
+GLuint ccVAO, ccVBO, ccEBO;
+Model ccobj;
+GLuint ccTexture0;
+
+GLuint lightVAO, lightVBO, lightEBO;
+Model lightobj;
+GLuint lightTexture0;
 
 GLuint catVAO, catVBO, catEBO;
 Model catobj;
@@ -458,7 +462,7 @@ void sendDataToOpenGL()
 		(void*)offsetof(Vertex, normal) // array buffer offset
 	);
 
-	jeepobj = loadOBJ("resources/others/cc.obj");
+	jeepobj = loadOBJ("resources/others/chair.obj");
 	glGenVertexArrays(1, &jeepVAO);
 	glBindVertexArray(jeepVAO);
 	//Create Vertex Buffer Objects
@@ -488,7 +492,7 @@ void sendDataToOpenGL()
 		sizeof(Vertex), // stride
 		(void*)offsetof(Vertex, uv) // array buffer offset
 	);
-	jeepTexture0 = loadTexture("resources/others/RockTexture2.jpg");
+	jeepTexture0 = loadTexture("resources/others/wood.jpg");
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(
 		2, // attribute
@@ -541,17 +545,17 @@ void sendDataToOpenGL()
 	);
 
 
-	cat2obj = loadOBJ("resources/cat/cat2.obj");
-	glGenVertexArrays(1, &cat2VAO);
-	glBindVertexArray(cat2VAO);
+	ccobj = loadOBJ("resources/others/cc.obj");
+	glGenVertexArrays(1, &ccVAO);
+	glBindVertexArray(ccVAO);
 	//Create Vertex Buffer Objects
-	glGenBuffers(1, &cat2VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, cat2VBO);
-	glBufferData(GL_ARRAY_BUFFER, cat2obj.vertices.size() * sizeof(Vertex), &cat2obj.vertices[0], GL_STATIC_DRAW);
+	glGenBuffers(1, &ccVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, ccVBO);
+	glBufferData(GL_ARRAY_BUFFER, ccobj.vertices.size() * sizeof(Vertex), &ccobj.vertices[0], GL_STATIC_DRAW);
 	//Create Element array Buffer Objects
-	glGenBuffers(1, &cat2EBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cat2EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, cat2obj.indices.size() * sizeof(unsigned int), &cat2obj.indices[0], GL_STATIC_DRAW);
+	glGenBuffers(1, &ccEBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ccEBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, ccobj.indices.size() * sizeof(unsigned int), &ccobj.indices[0], GL_STATIC_DRAW);
 	// 1st attribute buffer : position
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(
@@ -571,9 +575,7 @@ void sendDataToOpenGL()
 		sizeof(Vertex), // stride
 		(void*)offsetof(Vertex, uv) // array buffer offset
 	);
-	cat2Texture0 = loadTexture("resources/cat/cat2_01.jpg");
-	cat2Texture1 = loadTexture("resources/cat/cat2_02.jpg");
-	cat2Texture2 = loadTexture("resources/cat/cat2_03.jpg");
+	ccTexture0 = loadTexture("resources/others/cc.jpg");
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(
 		2, // attribute
@@ -583,7 +585,48 @@ void sendDataToOpenGL()
 		sizeof(Vertex), // stride
 		(void*)offsetof(Vertex, normal) // array buffer offset
 	);
-	
+
+	lightobj = loadOBJ("resources/others/light.obj");
+	glGenVertexArrays(1, &lightVAO);
+	glBindVertexArray(lightVAO);
+	//Create Vertex Buffer Objects
+	glGenBuffers(1, &lightVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, lightVBO);
+	glBufferData(GL_ARRAY_BUFFER, lightobj.vertices.size() * sizeof(Vertex), &lightobj.vertices[0], GL_STATIC_DRAW);
+	//Create Element array Buffer Objects
+	glGenBuffers(1, &lightEBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, lightEBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, lightobj.indices.size() * sizeof(unsigned int), &lightobj.indices[0], GL_STATIC_DRAW);
+	// 1st attribute buffer : position
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(
+		0, // attribute
+		3, // size
+		GL_FLOAT, // type
+		GL_FALSE, // normalized?
+		sizeof(Vertex), // stride
+		(void*)offsetof(Vertex, position) // array buffer offset
+	);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(
+		1, // attribute
+		2, // size
+		GL_FLOAT, // type
+		GL_FALSE, // normalized?
+		sizeof(Vertex), // stride
+		(void*)offsetof(Vertex, uv) // array buffer offset
+	);
+	lightTexture0 = loadTexture("resources/others/light.jpg");
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(
+		2, // attribute
+		3, // size
+		GL_FLOAT, // type
+		GL_FALSE, // normalized?
+		sizeof(Vertex), // stride
+		(void*)offsetof(Vertex, normal) // array buffer offset
+	);
+	/*
 	//CAT OBJ
 	catobj = loadOBJ("resources/cat/cat.obj");
 	glGenVertexArrays(1, &catVAO);
@@ -626,7 +669,7 @@ void sendDataToOpenGL()
 		sizeof(Vertex), // stride
 		(void*)offsetof(Vertex, normal) // array buffer offset
 	);
-	
+	*/
 
 }
 void matrix(string obj) {
@@ -636,16 +679,16 @@ void matrix(string obj) {
 	unsigned int slot = 0;
 
 	if (obj == "test") {
-		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(3.0f, 0.5f, -2.0f));
-		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(1.5f, 1.5f, 1.5f));
-		modelRotationMatrix = glm::rotate(glm::mat4(), 28.0f, glm::vec3(0, 1, 0));
+		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(-5.0f, -1.0f, -3.0f));
+		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(0.2f, 0.2f, 0.2f));
+		modelRotationMatrix = glm::rotate(glm::mat4(), 0.5f, glm::vec3(0, 1, 0));
 	}
 	else if (obj == "grass1") {
-		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(0.0f, -1.0f, 0.0f));
+		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(8.0f, -1.0f, 1.0f));
 		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(1.0f, 1.0f, 1.0f));
 	}
 	else if (obj == "grass2") {
-		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(7.0f, -1.0f, 0.0f));
+		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(6.0f, -1.0f, 0.0f));
 		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(1.5f, 1.5f, 1.5f));
 	}
 	else if (obj == "grass3") {
@@ -660,17 +703,15 @@ void matrix(string obj) {
 		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(2.0f, -1.0f, 1.0f));
 		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(0.7f, 0.7f, 0.7f));
 	}
-	else if (obj == "cat2") {
-		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(-3.0f, -1.0f, 1.0f));
-		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(0.2f, 0.2f, 0.2f));
+	else if (obj == "cc") {
+		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(5.0f, 0.5f, -4.0f));
+		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(1.5f, 1.5f, 1.5f));
+		modelRotationMatrix = glm::rotate(glm::mat4(), -0.5f, glm::vec3(0, 1, 0));
 	}
-	else if (obj == "cat3") {
-		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(2.0f, -1.0f, 1.0f));
-		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(0.05f, 0.05f, 0.05f));
-	}
-	else if (obj == "cat4") {
-		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(2.0f, -1.0f, 1.0f));
-		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(0.05f, 0.05f, 0.05f));
+	else if (obj == "light") {
+		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(6.0f, -1.2f, -6.0f));
+		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(3.0f, 3.0f, 3.0f));
+		//modelRotationMatrix = glm::rotate(glm::mat4(), -0.5f, glm::vec3(0, 1, 0));
 	}
 	else if (obj == "cat") {
 		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(cat_x, -1.0f, cat_z));
@@ -719,7 +760,7 @@ void matrix(string obj) {
 	glUniform3fv(lightPositionUniformLocation, 1, &lightPosition[0]);
 
 	GLint eyePositionUniformLocation = glGetUniformLocation(programID, "eyePositionWorld");
-	glm::vec3 eyePosition(3.0f, 10.0f, 0.0f);
+	glm::vec3 eyePosition(camX, camY, camZ);
 	glUniform3fv(eyePositionUniformLocation, 1, &eyePosition[0]);
 }
 void paintGL(void)
@@ -773,22 +814,16 @@ void paintGL(void)
 	glBindTexture(GL_TEXTURE_2D, grassTexture0);
 	glDrawElements(GL_TRIANGLES, grassobj.indices.size(), GL_UNSIGNED_INT, 0);
 	
-	/*
-	matrix("cat2");
-	glBindVertexArray(cat2VAO);
-	glBindTexture(GL_TEXTURE_2D, cat2Texture0);
-	glDrawElements(GL_TRIANGLES, cat2obj.indices.size(), GL_UNSIGNED_INT, 0);
-	
-	matrix("cat3");
-	glBindVertexArray(cat2VAO);
-	glBindTexture(GL_TEXTURE_2D, cat2Texture1);
-	glDrawElements(GL_TRIANGLES, cat2obj.indices.size(), GL_UNSIGNED_INT, 0);
+	matrix("cc");
+	glBindVertexArray(ccVAO);
+	glBindTexture(GL_TEXTURE_2D, ccTexture0);
+	glDrawElements(GL_TRIANGLES, ccobj.indices.size(), GL_UNSIGNED_INT, 0);
 
-	matrix("cat4");
-	glBindVertexArray(cat2VAO);
-	glBindTexture(GL_TEXTURE_2D, cat2Texture2);
-	glDrawElements(GL_TRIANGLES, cat2obj.indices.size(), GL_UNSIGNED_INT, 0);
-	*/
+	matrix("light");
+	glBindVertexArray(lightVAO);
+	glBindTexture(GL_TEXTURE_2D, lightTexture0);
+	glDrawElements(GL_TRIANGLES, lightobj.indices.size(), GL_UNSIGNED_INT, 0);
+
 	//cout << jeepobj.indices.size() << endl;
 	
 	matrix("cat");
