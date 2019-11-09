@@ -523,7 +523,7 @@ void sendDataToOpenGL()
 		sizeof(Vertex), // stride
 		(void*)offsetof(Vertex, uv) // array buffer offset
 	);
-	grassTexture0 = loadTexture("resources/others/grass.png");
+	grassTexture0 = loadTexture("resources/others/grass.jpg");
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(
 		2, // attribute
@@ -577,7 +577,7 @@ void sendDataToOpenGL()
 		sizeof(Vertex), // stride
 		(void*)offsetof(Vertex, normal) // array buffer offset
 	);
-	
+	/*
 	//CAT OBJ
 	catobj = loadOBJ("resources/cat/cat.obj");
 	glGenVertexArrays(1, &catVAO);
@@ -620,7 +620,8 @@ void sendDataToOpenGL()
 		sizeof(Vertex), // stride
 		(void*)offsetof(Vertex, normal) // array buffer offset
 	);
-	
+	*/
+
 }
 void matrix(string obj) {
 	glm::mat4 modelTransformMatrix = glm::mat4(1.0f);
@@ -705,9 +706,9 @@ void matrix(string obj) {
 	glUniform4fv(ambientLightUniformLocation, 1, &ambientLight[0]);
 
 	GLint lightPositionUniformLocation = glGetUniformLocation(programID, "lightPositionWorld");
-	glm::mat4 rotationMat = glm::rotate(glm::mat4(), (clock()-st_time) * 0.0005f , glm::vec3(1, 1, 0));
-	glm::vec3 lightPosition = glm::vec3(1, 10, 0);
-	if (isRotate == 1) lightPosition = glm::vec3(rotationMat * glm::vec4(1, 10, 0 , 1.0));
+	glm::mat4 rotationMat = glm::rotate(glm::mat4(), (clock()-st_time) * 0.0005f , glm::vec3(0, 1, 0));
+	glm::vec3 lightPosition = glm::vec3(10, 5, 0);
+	if (isRotate == 1) lightPosition = glm::vec3(rotationMat * glm::vec4(lightPosition, 1));
 	glUniform3fv(lightPositionUniformLocation, 1, &lightPosition[0]);
 
 	GLint eyePositionUniformLocation = glGetUniformLocation(programID, "eyePositionWorld");
@@ -764,12 +765,12 @@ void paintGL(void)
 	glBindVertexArray(grassVAO);
 	glBindTexture(GL_TEXTURE_2D, grassTexture0);
 	glDrawElements(GL_TRIANGLES, grassobj.indices.size(), GL_UNSIGNED_INT, 0);
-	/*
+	
 	matrix("cat2");
 	glBindVertexArray(cat2VAO);
 	glBindTexture(GL_TEXTURE_2D, cat2Texture0);
 	glDrawElements(GL_TRIANGLES, cat2obj.indices.size(), GL_UNSIGNED_INT, 0);
-
+	/*
 	
 	matrix("cat3");
 	glBindVertexArray(cat2VAO);
