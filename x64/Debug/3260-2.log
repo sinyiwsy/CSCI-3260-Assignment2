@@ -1,15 +1,18 @@
 ﻿  main.cpp
-c:\users\hindu\desktop\3260-2\3260-2\main.cpp(740): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\hindu\desktop\3260-2\3260-2\main.cpp(741): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\hindu\desktop\3260-2\3260-2\main.cpp(742): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\hindu\desktop\3260-2\3260-2\main.cpp(807): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-c:\users\hindu\desktop\3260-2\3260-2\main.cpp(812): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-c:\users\hindu\desktop\3260-2\3260-2\main.cpp(817): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-c:\users\hindu\desktop\3260-2\3260-2\main.cpp(822): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-c:\users\hindu\desktop\3260-2\3260-2\main.cpp(827): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-c:\users\hindu\desktop\3260-2\3260-2\main.cpp(832): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-c:\users\hindu\desktop\3260-2\3260-2\main.cpp(837): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-c:\users\hindu\desktop\3260-2\3260-2\main.cpp(842): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-c:\users\hindu\desktop\3260-2\3260-2\main.cpp(847): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-c:\users\hindu\desktop\3260-2\3260-2\main.cpp(858): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(70): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(73): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(798): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(799): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(800): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(892): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(897): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(902): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(907): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(912): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(917): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(922): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(927): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(932): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(943): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+c:\users\hindu\desktop\3260-2\3260-2\main.cpp(972): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
   3260-2.vcxproj -> C:\Users\hindu\Desktop\3260-2\x64\Debug\3260-2.exe

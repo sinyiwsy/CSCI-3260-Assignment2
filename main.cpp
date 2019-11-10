@@ -23,9 +23,11 @@ Student Name: Wong Sin Yi
 #include <map>
 #include <time.h>
 
+#define no 12
 using namespace std;
 clock_t now_t;
 int st_time = 0;
+//int i = 0;
 GLint programID;
 // Could define the Vao&Vbo and interaction parameter here
 
@@ -40,14 +42,54 @@ float yaw = -90.0f;
 float pitch = 17.0f;
 int original_x;
 int original_y;
-
+int event = 0;
+int event2 = 0;
 int cat_tx = 1;
 float cat_r = 0;
 float cat_x;
 float cat_z;
 float cat_delta = 0.1f;
 
-glm::vec3 lightPosition = glm::vec3(10, 0, 0);
+glm::vec3 lightPosition = glm::vec3(8, 3, 0);
+
+
+struct MultiLight
+{
+	glm::vec3 position;
+	glm::vec3 color;
+	glm::vec3 formula;
+};
+
+MultiLight lp[no];
+GLint LittlelightPosition[no];
+GLint Littlelightcolor[no];
+
+
+float random(int max)
+{
+	srand(time(NULL));
+	int min = 1;
+	int x = rand() % (max - min + 1) + min;
+	return x;
+}
+string InttoStringp(int n)
+{
+	char tmp[256];
+	string str;
+	sprintf_s(tmp, "littleLight[%d].position", n);
+	str = tmp;
+	//cout << str << endl;
+	return str;
+}
+string InttoStringc(int n)
+{
+	char tmp[256];
+	string str;
+	sprintf_s(tmp, "littleLight[%d].color", n);
+	str = tmp;
+	//cout << str << endl;
+	return str;
+}
 //a series utilities for setting shader parameters 
 void setMat4(const std::string& name, glm::mat4& value)
 {
@@ -190,7 +232,7 @@ void keyboard_callback(unsigned char key, int x, int y)
 			
 		}else {
 			isRotate = 1;
-			st_time = clock();
+		
 		}
 	}
 	if (key == 'w')
@@ -201,7 +243,23 @@ void keyboard_callback(unsigned char key, int x, int y)
 	{
 		lightbrightness -= 1;
 	}
+	if (key == 'h')
+	{
+		if (event == 0) {
+			event = 1;
+			lightbrightness = -10;
+			for (int i = 0; i < no; i++) {
+				lp[i].position = glm::vec3(cat_x, 0.0f, cat_z);
+			}
+		}
+	}
+	if (key == 'j')
+	{
 
+		event = 0;
+		event2 = 0;
+		lightbrightness = 3;
+	}
 }
 
 void special_callback(int key, int x, int y)
@@ -781,16 +839,43 @@ void matrix(string obj) {
 	glUniform3fv(lightPositionUniformLocation0, 1, &lightPosition0[0]);
 
 	GLint eyePositionUniformLocation0 = glGetUniformLocation(programID, "eyePositionWorld0");
-	glm::vec3 eyePosition0(cat_x, 10.0f, cat_z);
+	glm::vec3 eyePosition0(camX, camY, camZ);
 	glUniform3fv(eyePositionUniformLocation0, 1, &eyePosition0[0]);
+	if (event == 1) {
+		for (int i = 0; i < no; i++) {
+			if (i % 3 == 0) lp[i].color = glm::vec3(1.0f, 0.0f, 0.0f); //color setting
+			else if (i % 3 == 1) lp[i].color = glm::vec3(0.0f, 1.0f, 0.0f);
+			else lp[i].color = glm::vec3(0.0f, 0.0f, 1.0f);
 
+			string str = InttoStringp(i);
+			const char* c_str = str.c_str();
+			string str2 = InttoStringc(i);
+			const char* c_str2 = str2.c_str();
+			LittlelightPosition[i] = glGetUniformLocation(programID, c_str);
+			glm::mat4 lprotationMat = glm::rotate(glm::mat4(), 0.0001f, glm::vec3(0, 1, 0));
+			lp[i].position = glm::vec3(lp[i].formula + lp[i].position);
+			lp[i].position = glm::vec3(lprotationMat * glm::vec4(lp[i].position, 1));
+			glUniform3fv(LittlelightPosition[i], 1, &lp[i].position[0]);
+			Littlelightcolor[i] = glGetUniformLocation(programID, c_str2);
+			glUniform3fv(Littlelightcolor[i], 1, &lp[i].color[0]);
+		}
+	}
+	if (event == 0) {
+		for (int i = 0; i < no; i++) {
+			string str = InttoStringc(i);
+			const char* c_str = str.c_str();
+			lp[i].color = glm::vec3(0.0f,0.0f,0.0f);
+			Littlelightcolor[i] = glGetUniformLocation(programID, c_str);
+			glUniform3fv(Littlelightcolor[i], 1, &lp[i].color[0]);
+		}
+	}
 }
 void paintGL(void)
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	//cout << isRotate << endl;
+	//cout << i <<": "<<clock() - st_time  << endl;
 	//TODO:
 	//Set lighting information, such as position and color of lighting source
 	//Set transformation matrix
@@ -881,6 +966,19 @@ int main(int argc, char* argv[])
 	/*Register different CALLBACK function for GLUT to response
 	with different events, e.g. window sizing, mouse click or
 	keyboard stroke */
+
+	float r = 0.0006f;
+	for (int i = 0; i < no; i++) {
+		float angle = ((360 / no) * i) * (3.1415926 / 180);
+		//cout << i << ": " << angle << endl;
+		lp[i].position = glm::vec3(cat_x, 0.0f, cat_z);
+		lp[i].formula = glm::vec3(cos(angle) * r, 0.0f, sin(angle) * r);
+		if( i%3 == 0) lp[i].color = glm::vec3(1.0f, 0.0f, 0.0f);
+		else if (i % 3 == 1) lp[i].color = glm::vec3(0.0f, 1.0f, 0.0f);
+		else lp[i].color = glm::vec3(0.0f, 0.0f, 1.0f);
+	}
+
+
 	initializedGL();
 	glutDisplayFunc(paintGL);
 

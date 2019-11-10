@@ -16,6 +16,14 @@ uniform vec3 eyePositionWorld0;
 out vec4 color;
 
 
+struct MultiLight
+{
+    vec3 position;
+    vec3 color;
+};
+#define LIGHT_NUM 12
+uniform MultiLight littleLight[LIGHT_NUM];
+
 void main()
 {
 	vec3 LightColor = vec3(1,1,1);
@@ -48,10 +56,25 @@ void main()
 	s1 = pow(s1, 50);
 	vec4 specularLight0 = vec4(s1 , s1, s1, 1);
 
+	vec4 multi_result;
+	for(int i = 0; i < LIGHT_NUM; ++i)
+    {
+        vec3 lightVectorWorld2 = normalize(littleLight[i].position - vertexPositionWorld);
+		float brightness2 = dot(lightVectorWorld2, normalize(normalWorld));
+		vec4 diffuseLight2 = vec4(brightness2, brightness2, brightness2, 1.0) * vec4(littleLight[i].color, 1.0f);
+
+		vec3 reflectedLightVectorWorld2 = reflect(-lightVectorWorld2, normalWorld);
+		vec3 eyeVectorWorld2 = normalize(eyePositionWorld0 - vertexPositionWorld);
+		float s2 =clamp(dot(reflectedLightVectorWorld2, eyeVectorWorld2), 0, 1);
+		s2 = pow(s2, 50);
+		vec4 specularLight2 = vec4(s2, s2, s2, 1)  * vec4(littleLight[i].color, 1.0f);
+		multi_result += diffuseLight2 * 0.6f + specularLight2 * 0.3f  ;
+    }
+
 	 color = 
-		MaterialDiffuseColor * clamp(diffuseLight, 0, 1)+
+		MaterialDiffuseColor * clamp(diffuseLight, 0, 1) * 2.0f+
 		specularLight +
 		MaterialAmbientColor * ambientLight0 + 
-		MaterialDiffuseColor * clamp(diffuseLight0, 0, 1)+
-		specularLight0;
+		MaterialDiffuseColor * clamp(diffuseLight0, 0, 1) * 0.5f+
+		specularLight0 * MaterialAmbientColor *0.5f + multi_result;
 }
