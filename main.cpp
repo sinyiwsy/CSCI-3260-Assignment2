@@ -30,14 +30,14 @@ GLint programID;
 // Could define the Vao&Vbo and interaction parameter here
 
 int isRotate = 1;
-
+int lightbrightness = 3;
 //camera rotation
 float radius = 10.0f;
 float camX;
 float camY;
 float camZ;
 float yaw = -90.0f;
-float pitch = 13.0f;
+float pitch = 17.0f;
 int original_x;
 int original_y;
 
@@ -192,6 +192,14 @@ void keyboard_callback(unsigned char key, int x, int y)
 			isRotate = 1;
 			st_time = clock();
 		}
+	}
+	if (key == 'w')
+	{
+		lightbrightness += 1;
+	}
+	if (key == 's')
+	{
+		lightbrightness -= 1;
 	}
 
 }
@@ -626,7 +634,7 @@ void sendDataToOpenGL()
 		sizeof(Vertex), // stride
 		(void*)offsetof(Vertex, normal) // array buffer offset
 	);
-	/*
+	
 	//CAT OBJ
 	catobj = loadOBJ("resources/cat/cat.obj");
 	glGenVertexArrays(1, &catVAO);
@@ -669,7 +677,7 @@ void sendDataToOpenGL()
 		sizeof(Vertex), // stride
 		(void*)offsetof(Vertex, normal) // array buffer offset
 	);
-	*/
+	
 
 }
 void matrix(string obj) {
@@ -705,12 +713,12 @@ void matrix(string obj) {
 	}
 	else if (obj == "cc") {
 		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(5.0f, 0.5f, -4.0f));
-		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(1.5f, 1.5f, 1.5f));
+		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(0.4f, 0.4f, 0.4f));
 		modelRotationMatrix = glm::rotate(glm::mat4(), -0.5f, glm::vec3(0, 1, 0));
 	}
 	else if (obj == "light") {
 		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(6.0f, -1.2f, -6.0f));
-		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(3.0f, 3.0f, 3.0f));
+		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(0.8f, 0.8f, 0.8f));
 		//modelRotationMatrix = glm::rotate(glm::mat4(), -0.5f, glm::vec3(0, 1, 0));
 	}
 	else if (obj == "cat") {
@@ -736,7 +744,7 @@ void matrix(string obj) {
 	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), (float)640/(float)480 , 0.1f, 100.0f);
 	glm::mat4 Lookat = glm::lookAt(
 		glm::vec3(camX, camY , camZ), //cam
-		glm::vec3(0.0f, 0.0f, 0.0f), //look
+		glm::vec3(0.0f, 5.0f, -5.0f), //look
 		glm::vec3(0, 1, 0) 
 	);
 	glm::mat4 Tmp = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.5f, -5.0f));
@@ -749,12 +757,12 @@ void matrix(string obj) {
 	glUniform1i(TexLoc, 0);
 
 	//Light Effect
-	GLint ambientLightUniformLocation = glGetUniformLocation(programID, "ambientLight");
-	glm::vec4 ambientLight(0.3f, 0.3f, 0.3f, 1.0f);
-	glUniform4fv(ambientLightUniformLocation, 1, &ambientLight[0]);
+	
+	//GLint ambientLightUniformLocation = glGetUniformLocation(programID, "ambientLight");
+	//glm::vec4 ambientLight(0.1f * lightbrightness, 0.1f * lightbrightness, 0.1f *lightbrightness, 1.0f);
+	//glUniform4fv(ambientLightUniformLocation, 1, &ambientLight[0]);
 
 	GLint lightPositionUniformLocation = glGetUniformLocation(programID, "lightPositionWorld");
-
 	glm::mat4 rotationMat = glm::rotate(glm::mat4(),  0.00005f , glm::vec3(0, isRotate, 0));
 	if (isRotate == 1) lightPosition = glm::vec3(rotationMat * glm::vec4(lightPosition, 1));
 	glUniform3fv(lightPositionUniformLocation, 1, &lightPosition[0]);
@@ -762,6 +770,20 @@ void matrix(string obj) {
 	GLint eyePositionUniformLocation = glGetUniformLocation(programID, "eyePositionWorld");
 	glm::vec3 eyePosition(camX, camY, camZ);
 	glUniform3fv(eyePositionUniformLocation, 1, &eyePosition[0]);
+	
+	//direactional light
+	GLint ambientLightUniformLocation0 = glGetUniformLocation(programID, "ambientLight0");
+	glm::vec4 ambientLight0(0.1f * lightbrightness, 0.1f * lightbrightness, 0.1f * lightbrightness, 1.0f);
+	glUniform4fv(ambientLightUniformLocation0, 1, &ambientLight0[0]);
+
+	GLint lightPositionUniformLocation0 = glGetUniformLocation(programID, "lightPositionWorld0");
+	glm::vec3 lightPosition0 = glm::vec3(cat_x, 5.0f, cat_z);
+	glUniform3fv(lightPositionUniformLocation0, 1, &lightPosition0[0]);
+
+	GLint eyePositionUniformLocation0 = glGetUniformLocation(programID, "eyePositionWorld0");
+	glm::vec3 eyePosition0(cat_x, 10.0f, cat_z);
+	glUniform3fv(eyePositionUniformLocation0, 1, &eyePosition0[0]);
+
 }
 void paintGL(void)
 {
@@ -781,7 +803,7 @@ void paintGL(void)
 	
 	matrix("floor");
 	glBindVertexArray(VAO);
-	glBindTexture(GL_TEXTURE_2D, Texture0);
+	glBindTexture(GL_TEXTURE_2D, Texture1);
 	glDrawElements(GL_TRIANGLES, obj.indices.size(), GL_UNSIGNED_INT, 0);
 	
 	matrix("test");

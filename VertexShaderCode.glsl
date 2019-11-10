@@ -21,8 +21,8 @@ void main()
 	vec4 projectedPosition = projectionMatrix * new_position;
 	gl_Position = projectedPosition;
 
-	vec4 normal_temp = modelTransformMatrix * vec4(normal, 0);
-	normalWorld = normal_temp.xyz;
+	// vec4 normal_temp = modelTransformMatrix * modelScalingMatrix * modelRotationMatrix* vec4(normal, 0);
+	normalWorld = mat3(modelTransformMatrix * modelScalingMatrix * modelRotationMatrix) * normal;
 	vertexPositionWorld = new_position.xyz;
 
 	UV = vertexUV;
