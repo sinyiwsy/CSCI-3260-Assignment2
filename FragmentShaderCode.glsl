@@ -72,7 +72,7 @@ void main()
     }
 
 	 color = 
-		MaterialDiffuseColor * clamp(diffuseLight, 0, 1) * 2.0f+
+		MaterialDiffuseColor * clamp(diffuseLight, 0, 1) * 1.5f+
 		specularLight +
 		MaterialAmbientColor * ambientLight0 + 
 		MaterialDiffuseColor * clamp(diffuseLight0, 0, 1) * 0.5f+

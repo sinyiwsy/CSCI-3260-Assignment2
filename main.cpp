@@ -766,7 +766,7 @@ void matrix(string obj) {
 		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(1.3f, 1.3f, 1.3f));
 	}
 	else if (obj == "grass5") {
-		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(2.0f, -1.0f, 1.0f));
+		modelTransformMatrix = glm::translate(glm::mat4(), glm::vec3(2.0f, -1.0f, -1.0f));
 		modelScalingMatrix = glm::scale(glm::mat4(), glm::vec3(0.7f, 0.7f, 0.7f));
 	}
 	else if (obj == "cc") {
@@ -821,7 +821,7 @@ void matrix(string obj) {
 	//glUniform4fv(ambientLightUniformLocation, 1, &ambientLight[0]);
 
 	GLint lightPositionUniformLocation = glGetUniformLocation(programID, "lightPositionWorld");
-	glm::mat4 rotationMat = glm::rotate(glm::mat4(),  0.00005f , glm::vec3(0, isRotate, 0));
+	glm::mat4 rotationMat = glm::rotate(glm::mat4(),  0.00009f , glm::vec3(0, isRotate, 0));
 	if (isRotate == 1) lightPosition = glm::vec3(rotationMat * glm::vec4(lightPosition, 1));
 	glUniform3fv(lightPositionUniformLocation, 1, &lightPosition[0]);
 
