@@ -835,7 +835,7 @@ void matrix(string obj) {
 	glUniform4fv(ambientLightUniformLocation0, 1, &ambientLight0[0]);
 
 	GLint lightPositionUniformLocation0 = glGetUniformLocation(programID, "lightPositionWorld0");
-	glm::vec3 lightPosition0 = glm::vec3(cat_x, 5.0f, cat_z);
+	glm::vec3 lightPosition0 = glm::vec3(0.0f, 5.0f, 0.0f);
 	glUniform3fv(lightPositionUniformLocation0, 1, &lightPosition0[0]);
 
 	GLint eyePositionUniformLocation0 = glGetUniformLocation(programID, "eyePositionWorld0");
