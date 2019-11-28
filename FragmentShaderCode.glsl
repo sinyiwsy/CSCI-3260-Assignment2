@@ -43,7 +43,7 @@ void main()
 	s = pow(s, 50);
 	vec4 specularLight = vec4(s , s, s, 1);
 
-	//cat light
+	//dir light
 	//Diffuse
 	vec3 lightVectorWorld0 = normalize(lightPositionWorld0 - vertexPositionWorld);
 	float brightness0 = dot(lightVectorWorld0, normalize(normalWorld));
@@ -74,6 +74,7 @@ void main()
 	 color = 
 		MaterialDiffuseColor * clamp(diffuseLight, 0, 1) * 1.5f+
 		specularLight +
+		MaterialAmbientColor * 0.2f +
 		MaterialAmbientColor * ambientLight0 + 
 		MaterialDiffuseColor * clamp(diffuseLight0, 0, 1) * 0.5f+
 		specularLight0 * MaterialAmbientColor *0.5f + multi_result;

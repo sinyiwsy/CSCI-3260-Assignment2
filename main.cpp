@@ -235,13 +235,16 @@ void keyboard_callback(unsigned char key, int x, int y)
 		
 		}
 	}
-	if (key == 'w')
+	if (key == 'w' && (event == 0))
 	{
 		lightbrightness += 1;
+		if (lightbrightness > 10)lightbrightness = 10;
 	}
-	if (key == 's')
+	if (key == 's' && (event == 0))
 	{
 		lightbrightness -= 1;
+		if (lightbrightness < 0)lightbrightness = 0;
+
 	}
 	if (key == 'h')
 	{
@@ -821,7 +824,7 @@ void matrix(string obj) {
 	//glUniform4fv(ambientLightUniformLocation, 1, &ambientLight[0]);
 
 	GLint lightPositionUniformLocation = glGetUniformLocation(programID, "lightPositionWorld");
-	glm::mat4 rotationMat = glm::rotate(glm::mat4(),  0.00009f , glm::vec3(0, isRotate, 0));
+	glm::mat4 rotationMat = glm::rotate(glm::mat4(),  0.00015f , glm::vec3(0, isRotate, 0));
 	if (isRotate == 1) lightPosition = glm::vec3(rotationMat * glm::vec4(lightPosition, 1));
 	glUniform3fv(lightPositionUniformLocation, 1, &lightPosition[0]);
 
@@ -835,7 +838,7 @@ void matrix(string obj) {
 	glUniform4fv(ambientLightUniformLocation0, 1, &ambientLight0[0]);
 
 	GLint lightPositionUniformLocation0 = glGetUniformLocation(programID, "lightPositionWorld0");
-	glm::vec3 lightPosition0 = glm::vec3(0.0f, 5.0f, 0.0f);
+	glm::vec3 lightPosition0 = glm::vec3(cat_x, 5.0f, cat_z);
 	glUniform3fv(lightPositionUniformLocation0, 1, &lightPosition0[0]);
 
 	GLint eyePositionUniformLocation0 = glGetUniformLocation(programID, "eyePositionWorld0");
